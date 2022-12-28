@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/code/20221227_FileManager/20220414_FileManager/src/pkg20220414_filemanager/Helper.java</file>
-            <file>file:/C:/code/20221227_FileManager/20220414_FileManager/src/pkg20220414_filemanager/Main.java</file>
-            <file>file:/C:/code/20221227_FileManager/20220414_FileManager/src/pkg20220414_filemanager/GUI.java</file>
+            <file>file:/C:/code/20221227_FileManager/FileManager/src/pkg/GUI.java</file>
+            <file>file:/C:/code/20221227_FileManager/FileManager/src/pkg/Main.java</file>
+            <file>file:/C:/code/20221227_FileManager/FileManager/src/pkg/Helper.java</file>
         </group>
     </open-files>
 </project-private>
