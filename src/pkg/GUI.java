@@ -1,7 +1,5 @@
 package pkg;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -19,6 +17,7 @@ public class GUI extends javax.swing.JFrame {
     private static final int DEFAULT_INCREMENT_BY = 1;
     private ButtonGroup buttonGroupSort;    
     private ButtonGroup buttonGroupFilter;   
+    private ButtonGroup buttonGroupFilterPhrase; 
     private ButtonGroup buttonGroupFilterDelete;
     
     public GUI() {
@@ -34,11 +33,15 @@ public class GUI extends javax.swing.JFrame {
         buttonGroupSort.add(radioButtonSortLastModified);
         buttonGroupSort.add(radioButtonSortFileName);
         
+        buttonGroupFilterPhrase = new ButtonGroup();
+        buttonGroupFilterPhrase.add(radioButtonFilterPhraseText);
+        buttonGroupFilterPhrase.add(radioButtonFilterPhraseNonAscii);
+        
         buttonGroupFilter = new ButtonGroup();
         buttonGroupFilter.add(radioButtonFilterRemove);
         buttonGroupFilter.add(radioButtonFilterReplace);
         buttonGroupFilter.add(radioButtonFilterDelete);
-
+        
         buttonGroupFilterDelete = new ButtonGroup();
         buttonGroupFilterDelete.add(radioButtonFilterDeleteWith);
         buttonGroupFilterDelete.add(radioButtonFilterDeleteWithout);
@@ -68,6 +71,7 @@ public class GUI extends javax.swing.JFrame {
     }
     
     private void setFilterDefault(){
+        radioButtonFilterPhraseText.setSelected(true);
         radioButtonFilterRemove.setSelected(true);
         radioButtonFilterDeleteWith.setSelected(true);
         textPhrase.setText("");
@@ -98,6 +102,8 @@ public class GUI extends javax.swing.JFrame {
         checkboxSortReverse.setEnabled(b);
         checkboxKeepFileName.setEnabled(b);
         checkboxIndexWithZero.setEnabled(b);
+        radioButtonFilterPhraseText.setEnabled(b);
+        radioButtonFilterPhraseNonAscii.setEnabled(b);
         radioButtonFilterDelete.setEnabled(b);
         radioButtonFilterDeleteWith.setEnabled(b);
         radioButtonFilterDeleteWithout.setEnabled(b);
@@ -231,12 +237,20 @@ public class GUI extends javax.swing.JFrame {
             }
             if(radioButtonFilterRemove.isSelected()){
                 for(int i = 0; i < files.length; i++) {
-                    Helper.replaceFileNamePhraseWith(destinationDirectory, files[i], phrase, "");
+                    if(radioButtonFilterPhraseText.isSelected()){
+                        Helper.replaceFileNamePhraseWith(destinationDirectory, files[i], phrase, "");
+                    }else if(radioButtonFilterPhraseNonAscii.isSelected()){
+                        Helper.replaceFileNameNonAsciiWith(destinationDirectory, files[i], "");
+                    }
                     updateTitle((i+1), files.length);
                 }
             }else if(radioButtonFilterReplace.isSelected()){
                 for(int i = 0; i < files.length; i++) {
-                    Helper.replaceFileNamePhraseWith(destinationDirectory, files[i], phrase, replacement);
+                    if(radioButtonFilterPhraseText.isSelected()){
+                        Helper.replaceFileNamePhraseWith(destinationDirectory, files[i], phrase, replacement);
+                    }else if(radioButtonFilterPhraseNonAscii.isSelected()){
+                        Helper.replaceFileNameNonAsciiWith(destinationDirectory, files[i], replacement);
+                    }
                     updateTitle((i+1), files.length);
                 }
             }else if(radioButtonFilterDelete.isSelected()){
@@ -247,7 +261,11 @@ public class GUI extends javax.swing.JFrame {
                     deleteContaining = false;
                 }
                 for(int i = 0; i < files.length; i++) {
-                    Helper.deleteFileContaining(files[i], phrase, deleteContaining);
+                    if(radioButtonFilterPhraseText.isSelected()){
+                        Helper.deleteFileContainingPhrase(files[i], phrase, deleteContaining);
+                    }else if(radioButtonFilterPhraseNonAscii.isSelected()){
+                        Helper.deleteFileContainingNonAscii(files[i], deleteContaining);
+                    }
                     updateTitle((i+1), files.length);
                 }
             }
@@ -394,6 +412,8 @@ public class GUI extends javax.swing.JFrame {
         radioButtonFilterRemove = new javax.swing.JRadioButton();
         textReplace = new javax.swing.JTextField();
         buttonFilterDefault = new javax.swing.JButton();
+        radioButtonFilterPhraseText = new javax.swing.JRadioButton();
+        radioButtonFilterPhraseNonAscii = new javax.swing.JRadioButton();
         buttonDelete = new javax.swing.JButton();
         buttonMove = new javax.swing.JButton();
 
@@ -615,6 +635,12 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        radioButtonFilterPhraseText.setBackground(new java.awt.Color(189, 224, 254));
+        radioButtonFilterPhraseText.setText("Text");
+
+        radioButtonFilterPhraseNonAscii.setBackground(new java.awt.Color(189, 224, 254));
+        radioButtonFilterPhraseNonAscii.setText("Non-ASCII");
+
         javax.swing.GroupLayout panelFilterLayout = new javax.swing.GroupLayout(panelFilter);
         panelFilter.setLayout(panelFilterLayout);
         panelFilterLayout.setHorizontalGroup(
@@ -622,26 +648,30 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(panelFilterLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPhrase)
+                    .addGroup(panelFilterLayout.createSequentialGroup()
+                        .addComponent(radioButtonFilterPhraseText)
+                        .addGap(31, 31, 31)
+                        .addComponent(textPhrase))
                     .addGroup(panelFilterLayout.createSequentialGroup()
                         .addComponent(radioButtonFilterReplace)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textReplace))
                     .addGroup(panelFilterLayout.createSequentialGroup()
                         .addGroup(panelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radioButtonFilterRemove)
                             .addComponent(labelPhrase)
+                            .addGroup(panelFilterLayout.createSequentialGroup()
+                                .addComponent(buttonFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buttonFilterDefault, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(radioButtonFilterPhraseNonAscii)
+                            .addComponent(radioButtonFilterRemove)
                             .addComponent(labelFilterOperations)
                             .addGroup(panelFilterLayout.createSequentialGroup()
                                 .addComponent(radioButtonFilterDelete)
                                 .addGap(18, 18, 18)
                                 .addComponent(radioButtonFilterDeleteWith)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(radioButtonFilterDeleteWithout))
-                            .addGroup(panelFilterLayout.createSequentialGroup()
-                                .addComponent(buttonFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonFilterDefault, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(radioButtonFilterDeleteWithout)))
                         .addGap(0, 72, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -651,12 +681,16 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(labelPhrase)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textPhrase, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textPhrase, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(radioButtonFilterPhraseText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioButtonFilterPhraseNonAscii)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelFilterOperations)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioButtonFilterRemove)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelFilterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioButtonFilterReplace)
                     .addComponent(textReplace, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -792,8 +826,7 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonMove, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, 0))
+                            .addComponent(buttonMove, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(panelRename, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(6, 6, 6))
         );
@@ -920,6 +953,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton radioButtonFilterDelete;
     private javax.swing.JRadioButton radioButtonFilterDeleteWith;
     private javax.swing.JRadioButton radioButtonFilterDeleteWithout;
+    private javax.swing.JRadioButton radioButtonFilterPhraseNonAscii;
+    private javax.swing.JRadioButton radioButtonFilterPhraseText;
     private javax.swing.JRadioButton radioButtonFilterRemove;
     private javax.swing.JRadioButton radioButtonFilterReplace;
     private javax.swing.JRadioButton radioButtonSortFileName;

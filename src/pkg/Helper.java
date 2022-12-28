@@ -36,7 +36,7 @@ public class Helper {
         return sdf.format(date);
     }
     
-    public static void deleteFileContaining(File file, String phrase, boolean deleteContaining) {
+    public static void deleteFileContainingPhrase(File file, String phrase, boolean deleteContaining) {
         String fileName = file.getName();
         if(fileName.contains(phrase)){
             if(deleteContaining){
@@ -49,9 +49,38 @@ public class Helper {
         }
     }
     
+    public static void deleteFileContainingNonAscii(File file, boolean deleteContaining) {
+        String fileName = file.getName();
+        System.out.println(fileName);
+        System.out.println(fileName.matches("[^( -~)]"));
+        if(fileName.matches("[^( -~)]")){
+            System.out.println(1);
+            if(deleteContaining){
+                System.out.println(2);
+                deleteElement(file);
+            }
+        }else{
+            System.out.println(3);
+            if(!deleteContaining){
+                System.out.println(4);
+                deleteElement(file);
+            }
+        }
+    }
+    
     public static void replaceFileNamePhraseWith(File destinationDirectory, File file, String phrase, String replacement) {
         String fileName = file.getName();
         String newFileName = fileName.replace(phrase, replacement);
+        File newFile = new File(newFileName);
+        if(newFile.exists()){
+            newFile.delete();
+        }
+        file.renameTo(new File(destinationDirectory, newFileName));
+    }
+    
+    public static void replaceFileNameNonAsciiWith(File destinationDirectory, File file, String replacement) {
+        String fileName = file.getName();
+        String newFileName = fileName.replaceAll("[^( -~)]", replacement);
         File newFile = new File(newFileName);
         if(newFile.exists()){
             newFile.delete();

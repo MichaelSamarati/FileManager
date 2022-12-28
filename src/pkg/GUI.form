@@ -60,7 +60,6 @@
                               <Component id="buttonDelete" min="-2" pref="105" max="-2" attributes="0"/>
                               <Component id="buttonMove" min="-2" pref="105" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       </Group>
                       <Component id="panelRename" max="32767" attributes="0"/>
                   </Group>
@@ -508,10 +507,14 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="textPhrase" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="radioButtonFilterPhraseText" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="textPhrase" max="32767" attributes="0"/>
+                              </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="radioButtonFilterReplace" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -519,8 +522,14 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="radioButtonFilterRemove" min="-2" max="-2" attributes="0"/>
                                       <Component id="labelPhrase" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="buttonFilter" min="-2" pref="105" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="buttonFilterDefault" min="-2" pref="105" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="radioButtonFilterPhraseNonAscii" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="radioButtonFilterRemove" min="-2" max="-2" attributes="0"/>
                                       <Component id="labelFilterOperations" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="radioButtonFilterDelete" min="-2" max="-2" attributes="0"/>
@@ -528,11 +537,6 @@
                                           <Component id="radioButtonFilterDeleteWith" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="radioButtonFilterDeleteWithout" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="buttonFilter" min="-2" pref="105" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="buttonFilterDefault" min="-2" pref="105" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="0" pref="72" max="32767" attributes="0"/>
@@ -548,12 +552,17 @@
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="labelPhrase" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="textPhrase" min="-2" pref="22" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="textPhrase" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="radioButtonFilterPhraseText" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="radioButtonFilterPhraseNonAscii" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="labelFilterOperations" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="radioButtonFilterRemove" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="radioButtonFilterReplace" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="textReplace" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
@@ -711,6 +720,22 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonFilterDefaultActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="radioButtonFilterPhraseText">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fe" green="e0" red="bd" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Text"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="radioButtonFilterPhraseNonAscii">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fe" green="e0" red="bd" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Non-ASCII"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
