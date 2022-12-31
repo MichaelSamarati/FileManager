@@ -50,9 +50,8 @@ public class Helper {
     }
     
     public static void deleteFileContainingNonAscii(File file, boolean deleteContaining) {
+        //Bug: Does not properly work
         String fileName = file.getName();
-        System.out.println(fileName);
-        System.out.println(fileName.matches("[^( -~)]"));
         if(fileName.matches("[^( -~)]")){
             System.out.println(1);
             if(deleteContaining){
